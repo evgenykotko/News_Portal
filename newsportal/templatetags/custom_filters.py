@@ -23,13 +23,13 @@ def censor(value):
     block = '*'
     for i in value:
         text += i
-        string2 = text.lower()
+        lowtext = text.lower()
 
         flag = 0
         for j in stopword:
-            if not string2 in j:
+            if not lowtext in j:
                 flag += 1
-            if string2 == j:
+            if lowtext == j:
                 censored_text += block * len(text)
                 flag -= 1
                 text = ''
@@ -38,9 +38,9 @@ def censor(value):
             censored_text += text
             text = ''
 
-    if string2 != '' and string2 not in stopword:
+    if lowtext != '' and lowtext not in stopword:
         censored_text += text
-    elif string2 != '':
+    elif lowtext != '':
         censored_text += block * len(text)
 
     return censored_text
