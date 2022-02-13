@@ -1,0 +1,32 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+<!-- Блок заголовка -->
+{% block title %}
+News
+{% endblock title %}
+
+<!-- Блок заголовка -->
+{% block content %}
+
+<h2>Все новости</h2>
+<p>Новостей на портале - {{news|length}}</p>
+{% if news %}
+<table>
+    <tr>
+        <td align="center"><b>Тема</b></td>
+        <td align="center"><b>Дата</b></td>
+        <td align="center"><b>Превью</b></td>
+    </tr>
+    {% for newspost in news %}
+    <tr>
+        <td><a href="{{newspost.pk}}">{{newspost.title_post|censor}}</a></td>
+        <td>{{newspost.date_post|date:'d M Y'}}</td>
+        <td>{{newspost.body_post|truncatechars:51|censor}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<h2>No news</h2>
+{% endif %}
+{% endblock content %}
