@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'fpages',
 
     'newsportal',
+
+    'django_filters',
 ]
 
 MIDDLEWARE = [

@@ -16,7 +16,7 @@ def multiply(value, arg):
 @register.filter(name='censor')
 @stringfilter
 def censor(value):
-    stopword = ['бес', 'вид', 'ами', 'ние', 'импресс']
+    stopword = ['бес', 'вам', 'ами', 'ние', 'импресс', 'также']
     ln = len(stopword)
     censored_text = ''
     text = ''

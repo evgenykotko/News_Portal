@@ -1,0 +1,14 @@
+{% extends 'flatpages/default.html' %}
+{% block title %}
+AddNews
+{% endblock title %}
+
+<!-- Блок заголовка -->
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_ul }}
+    <hr>
+    <input type="submit" value="Исправить новость">
+</form>
+{% endblock content %}

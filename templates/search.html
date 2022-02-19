@@ -3,24 +3,35 @@
 
 <!-- Блок заголовка -->
 {% block title %}
-Новости
+Search
 {% endblock title %}
 
 <!-- Блок заголовка -->
 {% block content %}
 
-<h2>Все новости</h2>
+<h2>Поиск новостей</h2>
+<p>Новостей на портале - {{news|length}}</p>
+
+<form method="GET">
+    {{filter.form}}
+    <input type="submit" value="Найти">
+</form>
+
 
 {% if news %}
 <table>
     <tr>
         <td align="center"><b>Тема</b></td>
+        <td></td>
+        <td></td>
         <td align="center"><b>Дата</b></td>
         <td align="center"><b>Превью</b></td>
     </tr>
-    {% for newspost in news %}
+    {% for newspost in filter.qs %}
     <tr>
-        <td><a href="{{newspost.pk}}">{{newspost.title_post|censor}}</a></td>
+        <td><a href="{% url 'news_detail' newspost.id %}">{{newspost.title_post|censor}}</a></td>
+        <td><a href="{% url 'news_update' newspost.id %}">Update</a></td>
+        <td><a href="{% url 'news_delete' newspost.id %}">Delete</a></td>
         <td>{{newspost.date_post|date:'d M Y'}}</td>
         <td>{{newspost.body_post|truncatechars:51|censor}}</td>
     </tr>
@@ -30,6 +41,7 @@
 <h2>No news</h2>
 {% endif %}
 <hr>
+
 <table align="center">
 <tr>
 <td>
@@ -53,6 +65,4 @@
 </td>
 </tr>
 </table>
-<hr>
-
 {% endblock content %}
