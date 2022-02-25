@@ -1,0 +1,20 @@
+{% extends 'account/base.html' %}
+{% load custom_filters %}
+
+<!-- Блок заголовка -->
+{% block title %}
+{{newspost.title_post}}
+{% endblock title %}
+
+<!-- Блок контента -->
+{% block content %}
+<h2>Вы действительно хотите удалить новость?</h2>
+<h1>{{newspost.title_post}}</h1>
+<p>{{newspost.date_post|date:'d M Y (h:m)' }}</p>
+<p>{{newspost.body_post}}</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Подтвердить удаление">
+</form>
+{% endblock content %}
