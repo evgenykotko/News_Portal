@@ -1,4 +1,4 @@
-{% extends 'flatpages/default.html' %}
+{% extends 'account/base.html' %}
 {% load custom_filters %}
 
 <!-- Блок заголовка -->
@@ -15,6 +15,6 @@
 
 <form method="POST">
     {% csrf_token %}
-    <input type="submit" value="подтвердить">
+    <input type="submit" value="Подтвердить удаление">
 </form>
 {% endblock content %}

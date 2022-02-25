@@ -1,4 +1,4 @@
-{% extends 'flatpages/default.html' %}
+{% extends 'account/base.html' %}
 {% block title %}
 AddNews
 {% endblock title %}
@@ -7,8 +7,17 @@ AddNews
 {% block content %}
 <form method="POST">
     {% csrf_token %}
-    {{ form.as_ul }}
+    <table>
+        <tr><td>{{form.type_post.label_tag}}</td><td>{{form.type_post}}</td></tr>
+        <tr><td>{{form.title_post.label_tag}}</td><td>{{form.title_post}}</td></tr>
+        <tr><td>{{form.body_post.label_tag}}</td> <td>{{form.body_post}}</td></tr>
+        <tr><td>{{form.rate_post.label_tag}}</td><td>{{form.rate_post}}</td></tr>
+        <tr><td>{{form.author_post.label_tag}}</td><td>{{form.author_post}}</td></tr>
+        <tr><td>{{form.category_post.label_tag}}</td><td>{{form.category_post}}</td></tr>
+    </table>
+
     <hr>
     <input type="submit" value="Добавить/Изменить новость">
+    <hr>
 </form>
 {% endblock content %}
