@@ -1,14 +1,14 @@
+from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.core.paginator import Paginator
-from .models import Post, Author
+from .models import Post, Author, Category, PostCategory
+from django.contrib.auth.models import User
 from .filters import PostFilter
 from .forms import AddNewsForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import redirect
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
-
-from datetime import datetime
 
 class NewsList(ListView):
     model = Post
@@ -35,13 +35,32 @@ class NewsPost(DetailView):
     model = Post
     template_name = 'newspost.html'
     context_object_name = 'newspost'
-    queryset = Post.objects.all()
+    queryset = Post.objects.filter()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        id = self.kwargs.get('pk')
+        context['not_subscribed'] = not Category.objects.filter(post__pk=id, subscribers=self.request.user).exists()
+        return context
+
+@login_required
+def subscribe(request, pk):
+    user_id = request.user.id
+    cat_name = request.POST['category']
+    if Category.objects.filter(post=pk, subscribers=request.user, name=cat_name).exists():
+        return HttpResponse(f"{request.user}, Вы уже подписаны на новости в категории {cat_name}")
+    else:
+        Category.objects.get(name=cat_name).subscribers.add(user_id)
+        return HttpResponse(f"{request.user}, Вы подписались на новости в категории {cat_name}")
+
+
 
 class NewsSearch(ListView):
     model = Post
     template_name = 'search.html'
     context_object_name = 'news'
     ordering = ['-id']
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -52,6 +71,13 @@ class AddNews(PermissionRequiredMixin, CreateView):
     permission_required = ('newsportal.add_post')
     template_name = 'addnews.html'
     form_class = AddNewsForm
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect(form.instance.get_absolute_url())
+
 
 class UpdateNews(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     login_url = '/accounts/login/'
@@ -73,3 +99,5 @@ class DeleteNews(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 
 class IndexView(TemplateView):
     template_name = 'index.html'
+
+

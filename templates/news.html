@@ -20,8 +20,8 @@
     </tr>
     {% for newspost in news %}
     <tr>
-        <td><a href="{{newspost.pk}}">{{newspost.title_post|censor}}</a></td>
-        <td>{{newspost.date_post|date:'d M Y'}}</td>
+        <td><a href="{{newspost.get_absolute_url}}">{{newspost.title_post|censor}}</a></td>
+        <td>{{newspost.date_post|date:'d.m.Y'}}</td>
         <td>{{newspost.body_post|truncatechars:51|censor}}</td>
     </tr>
     {% endfor %}
