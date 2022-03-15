@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.core.paginator import Paginator
-from .models import Post, Author, Category, PostCategory
+from .models import Post, Author, Category
 from django.contrib.auth.models import User
 from .filters import PostFilter
 from .forms import AddNewsForm
@@ -9,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.shortcuts import redirect
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
+from .tasks import new_posts
 
 class NewsList(ListView):
     model = Post
@@ -21,6 +22,7 @@ class NewsList(ListView):
         context = super().get_context_data(**kwargs)
         context['is_not_author'] = not self.request.user.groups.filter(name='author').exists()
         return context
+
 
 @login_required
 def upgrade_me(request):
@@ -76,6 +78,8 @@ class AddNews(PermissionRequiredMixin, CreateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             form.save()
+            pk = form.instance.pk
+            new_posts.delay(pk)
         return redirect(form.instance.get_absolute_url())
 
 
@@ -99,5 +103,6 @@ class DeleteNews(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 
 class IndexView(TemplateView):
     template_name = 'index.html'
+
 
 
