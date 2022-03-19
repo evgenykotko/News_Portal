@@ -6,9 +6,9 @@
 </head>
 <body>
     <h2>Здравствуй, {{user}}!</h2>
-    <p>Новая статья в твоем любимом разделе:</p>
-    <h3>{{instance.title_post}}</h3>
-    <p>{{instance.body_post|truncatechars:50}}-<a href="http://127.0.0.1:8000{{ instance.get_absolute_url }}">Смотреть полностью</a></p>
-    <p>Автор: {{instance.author_post}}</p>
+    <p>В твоем любимом разделе {{nw}} пост:</p>
+    <h3>{{post.title_post}}</h3>
+    <p>{{post.body_post|truncatechars:50}}-<a href="http://127.0.0.1:8000{{ post.get_absolute_url }}">Смотреть полностью</a></p>
+    <p>Автор: {{post.author_post}}</p>
 </body>
 </html>

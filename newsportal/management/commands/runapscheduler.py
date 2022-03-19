@@ -21,17 +21,20 @@ logger = logging.getLogger(__name__)
 
 def my_job():
     # Your job processing logic here...
-    dt = date.today()
-    ddt = (dt.isocalendar().week)
-    category = Category.objects.all().values('pk', 'name')
-    for cat in category:
+    dt = date.today() # текущая дата
+    ddt = (dt.isocalendar().week) # текущий номер недели
+    category = Category.objects.all().values('pk', 'name') # отбираем все категории и забираем из них pk и name - (name не обязательно, просто для понимания как оно работает)
+    for cat in category: # перебираем категории циклом
         print('-------')
-        print(f"--{cat['name']}")
-        subscribers = Category.objects.filter(name=cat['name']).values('subscribers__email')
-        for email in subscribers:
+        print(f"--{cat['name']}") # по сути name нужен только тут
+        subscribers = Category.objects.filter(name=cat['pk']).values('subscribers__email') # выбираем адреса всех подписчиков данной категории
+        for email in subscribers: # перебираем адреса циклом
             print(f"----{email['subscribers__email']}")
-            user = User.objects.get(email=email['subscribers__email'])
-            week_posts = Post.objects.filter(date_post__week__gte=(ddt-1), date_post__week__lte=ddt, category_post=cat['pk'])
+            user = User.objects.get(email=email['subscribers__email']) # попутно, на основании адресов выбираем username, это для корректного обращения в письме.
+            week_posts = Post.objects.filter(date_post__week__gte=(ddt-1), date_post__week__lte=ddt, category_post=cat['pk']) # и вот он - костыль и он же весь смысл функции :)
+            # выбираются посты в промежутке от прошлой недели (ddt-1) до текущей недели (ddt) и выбранной категории
+            # т.о. у нас есть адреса: email['subscribers__email'], есть имена: user и есть посты за неделю: week_posts
+            # все это впихиваем в рассылку:
             print(f"{week_posts}")
 
             html_content = render_to_string(
@@ -45,7 +48,6 @@ def my_job():
             msg = EmailMultiAlternatives(
                 subject=f"Еженедельная рассылка в категории {cat['name']}",
                 body='w_post.body_post for w_post in week_posts',
-                # from_email='kotko.evgeny@yandex.ru',
                 to=[email['subscribers__email']]
             )
             msg.attach_alternative(html_content, "text/html")

@@ -14,15 +14,16 @@
 <p>{{newspost.body_post|censor}}</p>
 
 <hr>
-{% for category in newspost.category_post.all %}
+
 <form action="{% url 'subscribe' newspost.pk %}" method="POST">
     {% csrf_token %}
-{% if not_subscribed %}
-    <li style="display:inline;"><input type="submit" name="category" value="{{category}}"></li>
-{% else %}
-    <li style="display:inline;">{{category}}</li>
-{% endif %}
+    {% for category in newspost.category_post.all %}
+            {% if category.name in list_cats %}
+                <li style="display:inline;">{{category}}</li>
+            {% else %}
+                <li style="display:inline;"><input type="submit" name="category" value="{{category}}"></li>
+            {% endif %}
+    {% endfor %}
 </form>
-{% endfor %}
-<hr>
+
 {% endblock content %}

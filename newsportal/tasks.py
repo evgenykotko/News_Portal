@@ -1,3 +1,4 @@
+import random
 from datetime import datetime, timedelta
 from celery import shared_task
 
@@ -8,10 +9,10 @@ from .models import Post, Category
 from django.contrib.auth.models import User
 
 
-
 @shared_task
-def new_posts(pk):
-    instance = Post.objects.get(pk=pk)
+def new_posts(pk, nw):
+
+    post = Post.objects.get(pk=pk)
     category = Category.objects.filter(post__pk=pk).values('name')
     for cat in category:
         subscribers = Category.objects.filter(name=cat['name']).values('subscribers__email')
@@ -20,14 +21,15 @@ def new_posts(pk):
             html_content = render_to_string(
                 'celery_post_subscribers.html',
                 {
-                    'instance': instance,
+                    'post': post,
                     'user': user,
+                    'nw': nw,
                 }
             )
 
             msg = EmailMultiAlternatives(
-                subject=f"(Celery) В категории: {cat['name']} новый пост",
-                body=f"{instance.body_post[:50]}",
+                subject=f"(Celery) В категории: {cat['name']} {nw} пост",
+                body=f"{post.body_post[:50]}",
                 to=[email['subscribers__email']]
             )
             msg.attach_alternative(html_content, "text/html")

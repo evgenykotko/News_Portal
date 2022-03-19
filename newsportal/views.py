@@ -2,14 +2,15 @@ from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.core.paginator import Paginator
 from .models import Post, Author, Category
-from django.contrib.auth.models import User
 from .filters import PostFilter
 from .forms import AddNewsForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import redirect
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
-from .tasks import new_posts
+from django.core.cache import cache
+
+
 
 class NewsList(ListView):
     model = Post
@@ -37,13 +38,29 @@ class NewsPost(DetailView):
     model = Post
     template_name = 'newspost.html'
     context_object_name = 'newspost'
-    queryset = Post.objects.filter()
+    queryset = Post.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         id = self.kwargs.get('pk')
-        context['not_subscribed'] = not Category.objects.filter(post__pk=id, subscribers=self.request.user).exists()
+        cat_list = []
+        cats = Category.objects.filter(post__pk=id, subscribers=self.request.user).values('name')
+        for cat in cats:
+            cat_list.append(cat['name'])
+
+        # context['not_subscribed'] = not Category.objects.filter(post__pk=id, subscribers=self.request.user).exists()
+        context['list_cats'] = cat_list
         return context
+
+    def get_object(self, *args, **kwargs):
+        obj = cache.get(f'post-{self.kwargs["pk"]}', None)
+        # кэш очень похож на словарь, и метод get действует так же.
+        # Он забирает значение по ключу, если его нет, то забирает None.
+        # если объекта нет в кэше, то получаем его и записываем в кэш
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'post-{self.kwargs["pk"]}', obj)
+        return obj
 
 @login_required
 def subscribe(request, pk):
@@ -78,8 +95,6 @@ class AddNews(PermissionRequiredMixin, CreateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             form.save()
-            pk = form.instance.pk
-            new_posts.delay(pk)
         return redirect(form.instance.get_absolute_url())
 
 
@@ -103,6 +118,7 @@ class DeleteNews(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 
 class IndexView(TemplateView):
     template_name = 'index.html'
+
 
 
 
