@@ -16,13 +16,21 @@ class NewsList(ListView):
     model = Post
     template_name = 'news.html'
     context_object_name = 'news'
-    queryset = Post.objects.order_by("-id")
+    ordering = ['-id']
     paginate_by = 10
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['is_not_author'] = not self.request.user.groups.filter(name='author').exists()
-        return context
+    def get_context_data(self, *args, **kwargs):
+        return {
+            **super().get_context_data(*args, **kwargs),
+            'count_posts': Paginator(Post.objects.all().order_by('-id'), 1),
+            'is_not_author': not self.request.user.groups.filter(name='author').exists(),
+        }
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['count_posts'] = Paginator(Post.objects.all(), 1)
+    #     context['is_not_author'] = not self.request.user.groups.filter(name='author').exists()
+    #     return context
 
 
 @login_required
@@ -40,17 +48,16 @@ class NewsPost(DetailView):
     context_object_name = 'newspost'
     queryset = Post.objects.all()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_context_data(self, *args, **kwargs):
         id = self.kwargs.get('pk')
         cat_list = []
         cats = Category.objects.filter(post__pk=id, subscribers=self.request.user).values('name')
         for cat in cats:
             cat_list.append(cat['name'])
-
-        # context['not_subscribed'] = not Category.objects.filter(post__pk=id, subscribers=self.request.user).exists()
-        context['list_cats'] = cat_list
-        return context
+        return {
+            **super().get_context_data(*args, **kwargs),
+            'list_cats': cat_list,
+        }
 
     def get_object(self, *args, **kwargs):
         obj = cache.get(f'post-{self.kwargs["pk"]}', None)
@@ -66,9 +73,7 @@ class NewsPost(DetailView):
 def subscribe(request, pk):
     user_id = request.user.id
     cat_name = request.POST['category']
-    if Category.objects.filter(post=pk, subscribers=request.user, name=cat_name).exists():
-        return HttpResponse(f"{request.user}, Вы уже подписаны на новости в категории {cat_name}")
-    else:
+    if not Category.objects.filter(post=pk, subscribers=request.user, name=cat_name).exists():
         Category.objects.get(name=cat_name).subscribers.add(user_id)
         return HttpResponse(f"{request.user}, Вы подписались на новости в категории {cat_name}")
 
@@ -81,10 +86,20 @@ class NewsSearch(ListView):
     ordering = ['-id']
     paginate_by = 10
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['filter'] = PostFilter(self.request.GET, queryset=self.get_queryset())
-        return context
+
+    def get_filter(self):
+        return PostFilter(self.request.GET, queryset=super().get_queryset())
+
+    def get_queryset(self):
+        return self.get_filter().qs
+
+    def get_context_data(self, *args, **kwargs):
+        return {
+            **super().get_context_data(*args, **kwargs),
+            'filter': self.get_filter(),
+            'count_posts': Paginator(Post.objects.all().order_by('-id'), 1),
+        }
+
 
 class AddNews(PermissionRequiredMixin, CreateView):
     permission_required = ('newsportal.add_post')

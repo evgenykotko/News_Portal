@@ -10,7 +10,7 @@
 {% block content %}
 
 <h2>Все новости</h2>
-
+<p>Всего записей: {{count_posts.count}}</p>
 {% if news %}
 <table>
     <tr>
@@ -30,29 +30,29 @@
 <h2>No news</h2>
 {% endif %}
 <hr>
-<table align="center">
-<tr>
-<td>
-{% if is_paginated %}
-    {% if page_obj.has_previous %}
-        <a href="?page=1">Начало</a>
-        <a href="?page={{page_obj.previous_page_number}}"><</a>
-    {% endif %}
-    {% for num in page_obj.paginator.page_range %}
-        {% if page_obj.number == num %}
-            <a>{{ num }}</a>
-        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-            <a href="?page={{ num }}">{{ num }}</a>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">Начало</a>
+            <a href="?page={{ page_obj.previous_page_number }}"><</a>
         {% endif %}
-    {% endfor %}
-    {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">></a>
-        <a href="?page={{ page_obj.paginator.num_pages }}">Конец</a>
-    {% endif %}
-{% endif %}
-</td>
-</tr>
-</table>
+
+        <span class="current">
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <a>{{ num }}</a>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">></a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+        {% endif %}
+    </span>
+</div>
 <hr>
 
 {% endblock content %}
