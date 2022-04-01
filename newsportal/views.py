@@ -10,6 +10,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 
+from .signals import check_over_post_today
 
 
 class NewsList(ListView):
@@ -109,7 +110,13 @@ class AddNews(PermissionRequiredMixin, CreateView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            form.save()
+            addnews = form.save(commit=False)
+            addnews.author_post = Author.objects.get(user=self.request.user)
+            notify = check_over_post_today(sender=Post, instance=addnews, **kwargs)
+            if notify < 3:
+                addnews.save()
+            else:
+                return HttpResponse(f"{self.request.user}, на сегодня достаточно, Вы не можете больше сегодня постить")
         return redirect(form.instance.get_absolute_url())
 
 
