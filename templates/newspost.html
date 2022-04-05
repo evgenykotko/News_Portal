@@ -15,16 +15,20 @@
 <p align="right">Автор: {{newspost.author_post}}</p>
 
 <hr>
-
-<form action="{% url 'subscribe' newspost.pk %}" method="POST">
-    {% csrf_token %}
+{% if not_authenticated %}
     {% for category in newspost.category_post.all %}
-            {% if category.name in list_cats %}
-                <li style="display:inline;">{{category}}</li>
-            {% else %}
-                <li style="display:inline;"><input type="submit" name="category" value="{{category}}"></li>
-            {% endif %}
+        <li style="display:inline;">{{category}}</li>
     {% endfor %}
-</form>
-
+{% else %}
+    <form action="{% url 'subscribe' newspost.pk %}" method="POST">
+        {% csrf_token %}
+        {% for category in newspost.category_post.all %}
+                {% if category.name in list_cats %}
+                    <li style="display:inline;">{{category}}</li>
+                {% else %}
+                    <li style="display:inline;"><input type="submit" name="category" value="{{category}}"></li>
+                {% endif %}
+        {% endfor %}
+    </form>
+{% endif %}
 {% endblock content %}

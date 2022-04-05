@@ -10,6 +10,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 
+
 from .signals import check_over_post_today
 
 
@@ -27,12 +28,6 @@ class NewsList(ListView):
             'is_not_author': not self.request.user.groups.filter(name='author').exists(),
         }
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['count_posts'] = Paginator(Post.objects.all(), 1)
-    #     context['is_not_author'] = not self.request.user.groups.filter(name='author').exists()
-    #     return context
-
 
 @login_required
 def upgrade_me(request):
@@ -49,16 +44,24 @@ class NewsPost(DetailView):
     context_object_name = 'newspost'
     queryset = Post.objects.all()
 
+
     def get_context_data(self, *args, **kwargs):
-        id = self.kwargs.get('pk')
-        cat_list = []
-        cats = Category.objects.filter(post__pk=id, subscribers=self.request.user).values('name')
-        for cat in cats:
-            cat_list.append(cat['name'])
-        return {
-            **super().get_context_data(*args, **kwargs),
-            'list_cats': cat_list,
-        }
+        if self.request.user.is_authenticated:
+            id = self.kwargs.get('pk')
+            cat_list = []
+            cats = Category.objects.filter(post__pk=id, subscribers=self.request.user).values('name')
+            for cat in cats:
+                cat_list.append(cat['name'])
+            return {
+                **super().get_context_data(*args, **kwargs),
+                'list_cats': cat_list,
+            }
+        else:
+            return {
+                **super().get_context_data(*args, **kwargs),
+                'not_authenticated': not self.request.user.is_authenticated,
+            }
+
 
     def get_object(self, *args, **kwargs):
         obj = cache.get(f'post-{self.kwargs["pk"]}', None)
