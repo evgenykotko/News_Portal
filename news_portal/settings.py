@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
+from newsportal.custom_formatter import CustomFormatter
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -151,7 +152,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static"
+    BASE_DIR / 'static'
 ]
 
 
@@ -200,5 +201,97 @@ CACHES = {
         'LOCATION': os.path.join(BASE_DIR, 'cache_files'),
         # Указываем, куда будем сохранять кэшируемые файлы!
         # Не забываем создать папку cache_files внутри папки с manage.py!
+    }
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'general_fmt': {
+            'format': '{asctime} : {levelname} - {module} - {message}',
+            'style': '{'
+        },
+        'mail_fmt': {
+            'format': '{asctime} : {levelname} - {message} - {pathname}',
+            'style': '{'
+        },
+        'custom_fmt': {
+            '()': 'newsportal.custom_formatter.CustomFormatter'
+        },
+        
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'custom_fmt'
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'mail_fmt'
+        },
+        'log_general': {
+            'level': 'INFO',
+            'filters': ['require_debug_false'],
+            'class': 'logging.FileHandler',
+            'filename': 'news_portal/logs/general.log',
+            'formatter': 'general_fmt'
+        },
+        'log_errors': {
+            'level': 'ERROR',
+            'filters': ['require_debug_true'],
+            'class': 'logging.FileHandler',
+            'filename': 'news_portal/logs/errors.log',
+            'formatter': 'custom_fmt'
+        },
+        'log_security': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.FileHandler',
+            'filename': 'news_portal/logs/security.log',
+            'formatter': 'general_fmt'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console','log_general'],
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['log_errors', 'mail_admins', ],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'django.server': {
+            'handlers': ['log_errors', 'mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'django.template': {
+            'handlers': ['log_errors'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'django.db_backends': {
+            'handlers': ['log_errors'],
+            'level': 'ERROR',
+            'propagate': False,
+        },'django.security': {
+            'handlers': ['log_security'],
+            'level': 'INFO',
+            'propagate': False,
+        }
     }
 }

@@ -1,0 +1,197 @@
+ERROR 2022-05-06 09:42:51,005 log   5040 6644 Internal Server Error: /news/addnews/327/
+Traceback (most recent call last):
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\views\generic\base.py", line 84, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\contrib\auth\mixins.py", line 109, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\views\generic\base.py", line 119, in dispatch
+    return handler(request, *args, **kwargs)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\views\generic\edit.py", line 208, in post
+    return super().post(request, *args, **kwargs)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\views\generic\edit.py", line 153, in post
+    return self.form_valid(form)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\views\generic\edit.py", line 135, in form_valid
+    self.object = form.save()
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\forms\models.py", line 548, in save
+    self.instance.save()
+  File "E:\Python_study\News_Portal\news_portal_middleware\newsportal\models.py", line 69, in save
+    super().save(*args, **kwargs)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\db\models\base.py", line 806, in save
+    self.save_base(
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\db\models\base.py", line 872, in save_base
+    post_save.send(
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\dispatch\dispatcher.py", line 176, in send
+    return [
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\dispatch\dispatcher.py", line 177, in <listcomp>
+    (receiver, receiver(signal=self, sender=sender, **named))
+  File "E:\Python_study\News_Portal\news_portal_middleware\newsportal\signals.py", line 21, in notify_update_post
+    new_posts.delay(pk, nw)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\app\task.py", line 425, in delay
+    return self.apply_async(args, kwargs)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\app\task.py", line 575, in apply_async
+    return app.send_task(
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\app\base.py", line 784, in send_task
+    with self.producer_or_acquire(producer) as P:
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\app\base.py", line 919, in producer_or_acquire
+    producer, self.producer_pool.acquire, block=True,
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\app\base.py", line 1303, in producer_pool
+    return self.amqp.producer_pool
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\app\amqp.py", line 583, in producer_pool
+    self.app.connection_for_write()]
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\app\base.py", line 816, in connection_for_write
+    return self._connection(url or self.conf.broker_write_url, **kwargs)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\app\base.py", line 867, in _connection
+    return self.amqp.Connection(
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\kombu\connection.py", line 181, in __init__
+    if not get_transport_cls(transport).can_parse_url:
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\kombu\transport\__init__.py", line 85, in get_transport_cls
+    _transport_cache[transport] = resolve_transport(transport)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\kombu\transport\__init__.py", line 70, in resolve_transport
+    return symbol_by_name(transport)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\kombu\utils\imports.py", line 56, in symbol_by_name
+    module = imp(module_name, package=package, **kwargs)
+  File "C:\Users\kotko\AppData\Local\Programs\Python\Python39-32\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 790, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\kombu\transport\redis.py", line 262, in <module>
+    class PrefixedStrictRedis(GlobalKeyPrefixMixin, redis.Redis):
+AttributeError: 'NoneType' object has no attribute 'Redis'
+ERROR 2022-05-06 09:42:51,045 basehttp 5040 6644 "POST /news/addnews/327/ HTTP/1.1" 500 242719
+ERROR 2022-05-06 09:47:01,464 log   7928 220 Internal Server Error: /news/addnews/327/
+Traceback (most recent call last):
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\redis\connection.py", line 614, in connect
+    sock = self.retry.call_with_retry(
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\redis\retry.py", line 45, in call_with_retry
+    return do()
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\redis\connection.py", line 615, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\redis\connection.py", line 680, in _connect
+    raise err
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\redis\connection.py", line 668, in _connect
+    sock.connect(socket_address)
+ConnectionRefusedError: [WinError 10061] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\backends\redis.py", line 119, in reconnect_on_error
+    yield
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\backends\redis.py", line 169, in _consume_from
+    self._pubsub.subscribe(key)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\redis\client.py", line 1572, in subscribe
+    ret_val = self.execute_command("SUBSCRIBE", *new_channels.keys())
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\redis\client.py", line 1413, in execute_command
+    self.connection = self.connection_pool.get_connection(
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\redis\connection.py", line 1386, in get_connection
+    connection.connect()
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\redis\connection.py", line 620, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 10061 connecting to localhost:6379. Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\redis\connection.py", line 614, in connect
+    sock = self.retry.call_with_retry(
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\redis\retry.py", line 45, in call_with_retry
+    return do()
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\redis\connection.py", line 615, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\redis\connection.py", line 680, in _connect
+    raise err
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\redis\connection.py", line 668, in _connect
+    sock.connect(socket_address)
+ConnectionRefusedError: [WinError 10061] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\kombu\connection.py", line 446, in _reraise_as_library_errors
+    yield
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\app\base.py", line 787, in send_task
+    self.backend.on_task_call(P, task_id)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\backends\redis.py", line 365, in on_task_call
+    self.result_consumer.consume_from(task_id)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\backends\redis.py", line 161, in consume_from
+    return self.start(task_id)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\backends\redis.py", line 139, in start
+    self._consume_from(initial_task_id)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\backends\redis.py", line 169, in _consume_from
+    self._pubsub.subscribe(key)
+  File "C:\Users\kotko\AppData\Local\Programs\Python\Python39-32\lib\contextlib.py", line 135, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\backends\redis.py", line 122, in reconnect_on_error
+    self._ensure(self._reconnect_pubsub, ())
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\backends\redis.py", line 376, in ensure
+    return retry_over_time(
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\kombu\utils\functional.py", line 312, in retry_over_time
+    return fun(*args, **kwargs)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\backends\redis.py", line 106, in _reconnect_pubsub
+    metas = self.backend.client.mget(self.subscribed_to)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\redis\commands\core.py", line 1792, in mget
+    return self.execute_command("MGET", *args, **options)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\redis\client.py", line 1215, in execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\redis\connection.py", line 1386, in get_connection
+    connection.connect()
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\redis\connection.py", line 620, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 10061 connecting to localhost:6379. Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\views\generic\base.py", line 84, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\contrib\auth\mixins.py", line 109, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\views\generic\base.py", line 119, in dispatch
+    return handler(request, *args, **kwargs)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\views\generic\edit.py", line 208, in post
+    return super().post(request, *args, **kwargs)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\views\generic\edit.py", line 153, in post
+    return self.form_valid(form)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\views\generic\edit.py", line 135, in form_valid
+    self.object = form.save()
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\forms\models.py", line 548, in save
+    self.instance.save()
+  File "E:\Python_study\News_Portal\news_portal_middleware\newsportal\models.py", line 69, in save
+    super().save(*args, **kwargs)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\db\models\base.py", line 806, in save
+    self.save_base(
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\db\models\base.py", line 872, in save_base
+    post_save.send(
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\dispatch\dispatcher.py", line 176, in send
+    return [
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\django\dispatch\dispatcher.py", line 177, in <listcomp>
+    (receiver, receiver(signal=self, sender=sender, **named))
+  File "E:\Python_study\News_Portal\news_portal_middleware\newsportal\signals.py", line 21, in notify_update_post
+    new_posts.delay(pk, nw)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\app\task.py", line 425, in delay
+    return self.apply_async(args, kwargs)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\app\task.py", line 575, in apply_async
+    return app.send_task(
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\celery\app\base.py", line 788, in send_task
+    amqp.send_task_message(P, name, message, **options)
+  File "C:\Users\kotko\AppData\Local\Programs\Python\Python39-32\lib\contextlib.py", line 135, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\kombu\connection.py", line 450, in _reraise_as_library_errors
+    raise ConnectionError(str(exc)) from exc
+kombu.exceptions.OperationalError: Error 10061 connecting to localhost:6379. Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение.
