@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
+from django.urls import reverse
 
 class Author(models.Model):
     rating = models.IntegerField(default=0)
@@ -22,10 +23,15 @@ class Author(models.Model):
         self.rating = (3*a) + b + c
         self.save()
 
+    def __str__(self):
+        return f'{self.user.username}'
 
 
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    subscribers = models.ManyToManyField(User)
+    def __str__(self):
+        return f'{self.name}'
 
 
 class Post(models.Model):
@@ -53,6 +59,10 @@ class Post(models.Model):
 
     def preview(self):
         return self.body_post[:124] + "..."
+
+    def get_absolute_url(self):
+        return reverse('news_detail', kwargs={'pk':self.pk})
+
 
 class PostCategory(models.Model):
     post = models.ForeignKey("Post", on_delete=models.CASCADE)

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% load static %}
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>{% block head_title %}{% endblock %}</title>
+        {% block extra_head %}
+        {% endblock %}
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'news_list' %}">NewsPortal</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                {% block body %}
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'news_list' %}">Новости</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'news_search' %}">Поиск</a></li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'news_add' %}">Добавить</a></li>
+                         {% if is_not_author %}
+                        <li class="nav-item"><a style="color:orange" class="nav-link" href="{% url 'upgrade' %}">Стать автором</a></li>
+                        {% endif %}
+                        <li class="nav-item"><p style="color:white" class="nav-link">Вы вошли как: <b><i>{{ user.username }}</i></b></p></li>
+                        <li class="nav-item"><a style="color:red" class="nav-link" href="{% url 'account_logout' %}">Выход</a></li>
+                    {% else %}
+                         <li class="nav-item"><a style="color:red" class="nav-link" href="{% url 'account_login' %}">Войти</a></li>
+                         <li class="nav-item"><a style="color:green" class="nav-link" href="{% url 'account_signup' %}">Регистрация</a></li>
+                    {% endif %}
+                        <li class="nav-item"><a class="nav-link" href="/admin/">Admin</a></li>
+                    </ul>
+                </div>
+                {% endblock %}
+            </div>
+        </nav>
+        <!-- Page content-->
+        <div class="container">
+                {% block content %}
+                    <div style="float: right">
+                        {% if messages %}
+                        <div>
+                        <strong>Messages:</strong>
+                            {% for message in messages %}
+                                <p>{{message}}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    </div>
+                {% endblock %}
+                {% block extra_body %}
+                {% endblock %}
+        </div>
+    </body>
+</html>
