@@ -140,7 +140,7 @@ USE_I18N = True
 
 USE_TZ = False
 
-# Локализация
+# Localization
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale')
 ]
