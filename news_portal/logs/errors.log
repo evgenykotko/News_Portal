@@ -195,3 +195,19 @@ Traceback (most recent call last):
   File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\kombu\connection.py", line 450, in _reraise_as_library_errors
     raise ConnectionError(str(exc)) from exc
 kombu.exceptions.OperationalError: Error 10061 connecting to localhost:6379. Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение.
+2022-05-14 10:58:33,539 : ERROR - Internal Server Error: / - D:\PythonStudy\News_Portal\venv\lib\site-packages\django\utils\log.py - (<class 'django.template.exceptions.TemplateDoesNotExist'>, TemplateDoesNotExist('index.html'), <traceback object at 0x000002401104CBC0>)
+Traceback (most recent call last):
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\core\handlers\base.py", line 204, in _get_response
+    response = response.render()
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\response.py", line 105, in render
+    self.content = self.rendered_content
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\response.py", line 81, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\response.py", line 63, in resolve_template
+    return select_template(template, using=self.using)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\loader.py", line 47, in select_template
+    raise TemplateDoesNotExist(', '.join(template_name_list), chain=chain)
+django.template.exceptions.TemplateDoesNotExist: index.html
+2022-05-14 10:58:33,663 : ERROR - "GET / HTTP/1.1" 500 86101 - D:\PythonStudy\News_Portal\venv\lib\site-packages\django\core\servers\basehttp.py - None
