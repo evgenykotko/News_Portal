@@ -9,5 +9,5 @@ urlpatterns = [
     path('addnews/<int:pk>/', UpdateNews.as_view(), name='news_update'),
     path('delete/<int:pk>', DeleteNews.as_view(), name='news_delete'),
     path('upgrade/', upgrade_me, name='upgrade'),
-    path('<int:pk>/subscribe/', subscribe, name='subscribe')
+    path('<int:pk>/subscribe/', subscribe, name='subscribe'),
 ]
