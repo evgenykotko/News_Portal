@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.core.cache import cache
+from django.utils.translation import gettext as _
+from django.utils.translation import pgettext_lazy
 
 
 
@@ -30,7 +32,7 @@ class Author(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255, unique=True, help_text=_('category name'))
     subscribers = models.ManyToManyField(User)
     def __str__(self):
         return f'{self.name}'
@@ -45,10 +47,10 @@ class Post(models.Model):
     ]
     date_post = models.DateTimeField(auto_now_add=True)
     type_post = models.CharField(max_length=4, choices=TYPE_POST, default=post)
-    title_post = models.TextField()
-    body_post = models.TextField()
+    title_post = models.TextField(help_text=_('title post'))
+    body_post = models.TextField(help_text=_('body post'))
     rate_post = models.IntegerField(default=0)
-    author_post = models.ForeignKey("Author", on_delete=models.CASCADE)
+    author_post = models.ForeignKey("Author", on_delete=models.CASCADE, help_text=_('author post'))
     category_post = models.ManyToManyField(Category)
 
     def like(self):
