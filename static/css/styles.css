@@ -60,7 +60,7 @@
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.5;
   --bs-body-color: #212529;
-  --bs-body-bg: #fff;
+  --bs-body-bg: #ced4da;
 }
 
 *,
@@ -83,11 +83,11 @@ body {
   line-height: var(--bs-body-line-height);
   color: var(--bs-body-color);
   text-align: var(--bs-body-text-align);
-  background-color: var(--bs-body-bg);
+  /*background-color: var(--bs-body-bg);*/
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-body.test2 {
+/*body.test2 {
     width: 200px;
     background: #fc0;
     padding: 5px;
@@ -97,7 +97,7 @@ body.test2 {
     top: 40px;
     left: -70px;
 }
-
+*/
 hr {
   margin: 1rem 0;
   color: inherit;

@@ -743,3 +743,62 @@ Traceback (most recent call last):
     raise ConnectionError(str(exc)) from exc
 kombu.exceptions.OperationalError: Error 10061 connecting to localhost:6379. Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение.
 2022-05-16 17:32:31,938 : ERROR - "POST /admin/newsportal/post/328/change/ HTTP/1.1" 500 329354 - D:\PythonStudy\News_Portal\venv\lib\site-packages\django\core\servers\basehttp.py - None
+2022-05-16 20:31:00,214 : ERROR - Internal Server Error: / - D:\PythonStudy\News_Portal\venv\lib\site-packages\django\utils\log.py - (<class 'AttributeError'>, AttributeError("'dict' object has no attribute 'status_code'"), <traceback object at 0x000001A157B0F200>)
+Traceback (most recent call last):
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\utils\deprecation.py", line 128, in __call__
+    response = self.process_response(request, response)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\contrib\flatpages\middleware.py", line 9, in process_response
+    if response.status_code != 404:
+AttributeError: 'dict' object has no attribute 'status_code'
+2022-05-16 20:31:00,233 : ERROR - "GET / HTTP/1.1" 500 78235 - D:\PythonStudy\News_Portal\venv\lib\site-packages\django\core\servers\basehttp.py - None
+2022-05-16 20:41:42,092 : ERROR - Internal Server Error: /news/search/ - D:\PythonStudy\News_Portal\venv\lib\site-packages\django\utils\log.py - (<class 'django.template.exceptions.TemplateSyntaxError'>, TemplateSyntaxError("Invalid block tag on line 65: 'get_current_timezone'. Did you forget to register or load this tag?"), <traceback object at 0x000001E786652740>)
+Traceback (most recent call last):
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 500, in parse
+    compile_func = self.tags[command]
+KeyError: 'get_current_timezone'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\core\handlers\base.py", line 204, in _get_response
+    response = response.render()
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\response.py", line 105, in render
+    self.content = self.rendered_content
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\response.py", line 83, in rendered_content
+    return template.render(context, self._request)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 176, in render
+    return self._render(context)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 168, in _render
+    return self.nodelist.render(context)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 977, in render
+    return SafeString(''.join([
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 978, in <listcomp>
+    node.render_annotated(context) for node in self
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 938, in render_annotated
+    return self.render(context)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\loader_tags.py", line 130, in render
+    compiled_parent = self.get_parent(context)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\loader_tags.py", line 127, in get_parent
+    return self.find_template(parent, context)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\loader_tags.py", line 106, in find_template
+    template, origin = context.template.engine.find_template(
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\engine.py", line 145, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\loaders\base.py", line 29, in get_template
+    return Template(
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 199, in compile_nodelist
+    return parser.parse()
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 502, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 561, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 65: 'get_current_timezone'. Did you forget to register or load this tag?
+2022-05-16 20:41:42,096 : ERROR - "GET /news/search/?page=1 HTTP/1.1" 500 212770 - D:\PythonStudy\News_Portal\venv\lib\site-packages\django\core\servers\basehttp.py - None

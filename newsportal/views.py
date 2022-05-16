@@ -5,10 +5,12 @@ from .models import Post, Author, Category
 from .filters import PostFilter
 from .forms import AddNewsForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
+import pytz
+from django.utils import timezone
 
 
 from .signals import check_over_post_today
@@ -142,9 +144,17 @@ class DeleteNews(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     success_url = '/news/search'
 
 class IndexView(TemplateView):
-    template_name = 'index.html'
+    # template_name = 'index.html'
+    def get(self, request):
+        curent_time = timezone.now()
+        context = {
+            'current_time': timezone.now(),
+            'timezones': pytz.common_timezones  # добавляем в контекст все доступные часовые пояса
+        }
+        return HttpResponse(render(request, 'index.html', context))
 
-
-
-
-
+    #  по пост-запросу будем добавлять в сессию часовой пояс,
+    #  который и будет обрабатываться написанным нами ранее middleware
+    def post(self, request):
+        request.session['django_timezone'] = request.POST['timezone']
+        return redirect('/')
