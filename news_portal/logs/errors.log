@@ -195,3 +195,156 @@ Traceback (most recent call last):
   File "E:\Python_study\News_Portal\news_portal_middleware\venv\lib\site-packages\kombu\connection.py", line 450, in _reraise_as_library_errors
     raise ConnectionError(str(exc)) from exc
 kombu.exceptions.OperationalError: Error 10061 connecting to localhost:6379. Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение.
+2022-05-16 09:19:03,616 : ERROR - Internal Server Error: / - D:\PythonStudy\News_Portal\venv\lib\site-packages\django\utils\log.py - (<class 'django.template.exceptions.TemplateSyntaxError'>, TemplateSyntaxError("Invalid block tag on line 10: 'trans', expected 'endblock'. Did you forget to register or load this tag?"), <traceback object at 0x000001AC4A83A040>)
+Traceback (most recent call last):
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 500, in parse
+    compile_func = self.tags[command]
+KeyError: 'trans'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\core\handlers\base.py", line 204, in _get_response
+    response = response.render()
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\response.py", line 105, in render
+    self.content = self.rendered_content
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\response.py", line 81, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\response.py", line 63, in resolve_template
+    return select_template(template, using=self.using)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\backends\django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\engine.py", line 163, in get_template
+    template, origin = self.find_template(template_name)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\engine.py", line 145, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\loaders\base.py", line 29, in get_template
+    return Template(
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 199, in compile_nodelist
+    return parser.parse()
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 508, in parse
+    raise self.error(token, e)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 506, in parse
+    compiled_result = compile_func(self, token)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\loader_tags.py", line 284, in do_extends
+    nodelist = parser.parse()
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 508, in parse
+    raise self.error(token, e)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 506, in parse
+    compiled_result = compile_func(self, token)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\loader_tags.py", line 222, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 502, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 552, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 10: 'trans', expected 'endblock'. Did you forget to register or load this tag?
+2022-05-16 09:19:03,650 : ERROR - "GET / HTTP/1.1" 500 159802 - D:\PythonStudy\News_Portal\venv\lib\site-packages\django\core\servers\basehttp.py - None
+2022-05-16 09:26:54,526 : ERROR - Internal Server Error: /news/ - D:\PythonStudy\News_Portal\venv\lib\site-packages\django\utils\log.py - (<class 'django.template.exceptions.TemplateSyntaxError'>, TemplateSyntaxError("Invalid block tag on line 6: 'trans', expected 'endblock'. Did you forget to register or load this tag?"), <traceback object at 0x00000287EB8FBA80>)
+Traceback (most recent call last):
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 500, in parse
+    compile_func = self.tags[command]
+KeyError: 'trans'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\core\handlers\base.py", line 204, in _get_response
+    response = response.render()
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\response.py", line 105, in render
+    self.content = self.rendered_content
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\response.py", line 81, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\response.py", line 63, in resolve_template
+    return select_template(template, using=self.using)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\backends\django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\engine.py", line 163, in get_template
+    template, origin = self.find_template(template_name)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\engine.py", line 145, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\loaders\base.py", line 29, in get_template
+    return Template(
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 199, in compile_nodelist
+    return parser.parse()
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 508, in parse
+    raise self.error(token, e)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 506, in parse
+    compiled_result = compile_func(self, token)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\loader_tags.py", line 284, in do_extends
+    nodelist = parser.parse()
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 508, in parse
+    raise self.error(token, e)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 506, in parse
+    compiled_result = compile_func(self, token)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\loader_tags.py", line 222, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 502, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 552, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 6: 'trans', expected 'endblock'. Did you forget to register or load this tag?
+2022-05-16 09:26:54,529 : ERROR - "GET /news/ HTTP/1.1" 500 206583 - D:\PythonStudy\News_Portal\venv\lib\site-packages\django\core\servers\basehttp.py - None
+2022-05-16 09:45:15,569 : ERROR - Internal Server Error: /news/search/ - D:\PythonStudy\News_Portal\venv\lib\site-packages\django\utils\log.py - (<class 'django.template.exceptions.TemplateSyntaxError'>, TemplateSyntaxError("Invalid block tag on line 12: 'trans', expected 'endblock'. Did you forget to register or load this tag?"), <traceback object at 0x000002C0C2162680>)
+Traceback (most recent call last):
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 500, in parse
+    compile_func = self.tags[command]
+KeyError: 'trans'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\core\handlers\base.py", line 204, in _get_response
+    response = response.render()
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\response.py", line 105, in render
+    self.content = self.rendered_content
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\response.py", line 81, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\response.py", line 63, in resolve_template
+    return select_template(template, using=self.using)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\backends\django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\engine.py", line 163, in get_template
+    template, origin = self.find_template(template_name)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\engine.py", line 145, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\loaders\base.py", line 29, in get_template
+    return Template(
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 199, in compile_nodelist
+    return parser.parse()
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 508, in parse
+    raise self.error(token, e)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 506, in parse
+    compiled_result = compile_func(self, token)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\loader_tags.py", line 284, in do_extends
+    nodelist = parser.parse()
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 508, in parse
+    raise self.error(token, e)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 506, in parse
+    compiled_result = compile_func(self, token)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\loader_tags.py", line 222, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 502, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "D:\PythonStudy\News_Portal\venv\lib\site-packages\django\template\base.py", line 552, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 12: 'trans', expected 'endblock'. Did you forget to register or load this tag?
+2022-05-16 09:45:15,572 : ERROR - "GET /news/search/ HTTP/1.1" 500 211431 - D:\PythonStudy\News_Portal\venv\lib\site-packages\django\core\servers\basehttp.py - None

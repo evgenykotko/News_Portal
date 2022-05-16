@@ -1,4 +1,5 @@
 {% extends 'account/base.html' %}
+{% load i18n %}
 {% block title %}
 AddNews
 {% endblock title %}
@@ -9,6 +10,6 @@ AddNews
     {% csrf_token %}
     {{ form.as_ul }}
     <hr>
-    <input type="submit" value="Исправить новость">
+    <input type="submit" value="{% trans 'Исправить новость' %}">
 </form>
 {% endblock content %}

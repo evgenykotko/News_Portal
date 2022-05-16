@@ -1,4 +1,5 @@
 {% extends 'account/base.html' %}
+{% load i18n %}
 {% load custom_filters %}
 
 <!-- Блок заголовка -->
@@ -9,23 +10,23 @@ Search
 <!-- Блок заголовка -->
 {% block content %}
 
-<h2>Поиск новостей</h2>
-<p>Всего записей: {{count_posts.count}}</p>
+<h2>{% trans 'Поиск новостей' %}</h2>
+<p>{% trans 'Всего записей:' %} {{count_posts.count}}</p>
 
 <form method="GET">
     {{filter.form}}
-    <input type="submit" value="Найти">
+    <input type="submit" value="{% trans 'Найти' %}">
 </form>
 
 
 {% if news %}
 <table>
     <tr>
-        <td align="center"><b>Тема</b></td>
+        <td align="center"><b>{% trans 'Тема' %}</b></td>
         <td></td>
         <td></td>
-        <td align="center"><b>Дата</b></td>
-        <td align="center"><b>Превью</b></td>
+        <td align="center"><b>{% trans 'Дата' %}</b></td>
+        <td align="center"><b>{% trans 'Превью' %}</b></td>
     </tr>
     {% for newspost in object_list %}
     <tr>
@@ -44,7 +45,7 @@ Search
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
-            <a href="?page=1">Начало</a>
+            <a href="?page=1">{% trans 'Начало' %}</a>
             <a href="?page={{ page_obj.previous_page_number }}"><</a>
         {% endif %}
 
@@ -60,7 +61,7 @@ Search
 
         {% if page_obj.has_next %}
             <a href="?page={{ page_obj.next_page_number }}">></a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">{% trans 'Последняя' %}</a>
         {% endif %}
     </span>
 </div>

@@ -1,4 +1,5 @@
 {% extends 'account/base.html' %}
+{% load i18n %}
 {% load custom_filters %}
 
 <!-- Блок заголовка -->
@@ -9,14 +10,14 @@
 <!-- Блок заголовка -->
 {% block content %}
 
-<h2>Все новости</h2>
-<p>Всего записей: {{count_posts.count}}</p>
+<h2>{% trans 'Все новости' %}</h2>
+<p>{% trans 'Всего записей:' %} {{count_posts.count}}</p>
 {% if news %}
 <table>
     <tr>
-        <td align="center"><b>Тема</b></td>
-        <td align="center"><b>Дата</b></td>
-        <td align="center"><b>Превью</b></td>
+        <td align="center"><b>{% trans 'Тема' %}</b></td>
+        <td align="center"><b>{% trans 'Дата' %}</b></td>
+        <td align="center"><b>{% trans 'Превью' %}</b></td>
     </tr>
     {% for newspost in news %}
     <tr>
@@ -33,7 +34,7 @@
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
-            <a href="?page=1">Начало</a>
+            <a href="?page=1">{% trans 'Начало' %}</a>
             <a href="?page={{ page_obj.previous_page_number }}"><</a>
         {% endif %}
 
@@ -49,7 +50,7 @@
 
         {% if page_obj.has_next %}
             <a href="?page={{ page_obj.next_page_number }}">></a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">{% trans 'Последняя' %}</a>
         {% endif %}
     </span>
 </div>
